@@ -2,7 +2,9 @@
   "run_list": [
     "build-essential",
     "libxml2",
-    "nginx"
+    "nginx",
+    "zsh",
+    "my-base"
   ],
   "automatic": {
     "ipaddress": "melody"
