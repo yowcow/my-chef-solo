@@ -2,6 +2,7 @@ DEPENDENCIES
   build-essential
   libxml2
   nginx
+  zsh
 
 GRAPH
   apt (2.6.0)
@@ -27,3 +28,4 @@ GRAPH
   yum (3.5.2)
   yum-epel (0.5.3)
     yum (~> 3.0)
+  zsh (1.0.1)
