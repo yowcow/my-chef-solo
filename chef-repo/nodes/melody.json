@@ -1,10 +1,10 @@
 {
   "run_list": [
     "build-essential",
+    "git",
     "libxml2",
     "nginx",
     "zsh",
-    "my-base",
     "my-users"
   ],
   "automatic": {
