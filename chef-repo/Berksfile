@@ -1,1 +1,5 @@
-site :opscode
+source "https://supermarket.chef.io"
+
+cookbook 'build-essential'
+cookbook 'libxml2'
+cookbook 'nginx'

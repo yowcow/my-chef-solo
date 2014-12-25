@@ -1,0 +1,10 @@
+{
+  "run_list": [
+    "build-essential",
+    "libxml2",
+    "nginx"
+  ],
+  "automatic": {
+    "ipaddress": "melody"
+  }
+}
