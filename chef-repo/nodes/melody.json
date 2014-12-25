@@ -4,7 +4,8 @@
     "libxml2",
     "nginx",
     "zsh",
-    "my-base"
+    "my-base",
+    "my-users"
   ],
   "automatic": {
     "ipaddress": "melody"
