@@ -5,7 +5,9 @@
     "libxml2",
     "nginx",
     "zsh",
-    "my-users"
+
+    "users",
+    "anyenv"
   ],
   "automatic": {
     "ipaddress": "melody"
