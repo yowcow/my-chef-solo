@@ -8,26 +8,26 @@
 #
 
 git 'anyenv' do
-  user 'vagrant'
-  group 'vagrant'
-  repository 'https://github.com/riywo/anyenv.git'
-  reference "master"
-  destination '/home/vagrant/.anyenv'
+  user node['anyenv']['user']
+  group node['anyenv']['gname']
+  repository node['anyenv']['repository']
+  reference node['anyenv']['reference']
+  destination node['anyenv']['destination']
   action :sync
 end
 
 bash 'env' do
-  user 'vagrant'
-  group 'vagrant'
+  user node['anyenv']['user']
+  group node['anyenv']['gname']
   code <<-COMMAND
 echo '
-export PATH="$HOME/.anyenv/bin:$PATH"
+export PATH="#{node['anyenv']['destination']}/bin:$PATH"
 eval "$(anyenv init -)"
-' >> /home/vagrant/.zshenv
+' >> #{node['anyenv']['profile']}
   COMMAND
   not_if {
     begin
-      File.open('/home/vagrant/.zshenv').read.match(/anyenv init/)
+      File.open(node['anyenv']['profile']).read.match(/anyenv init/)
     rescue
       false
     end

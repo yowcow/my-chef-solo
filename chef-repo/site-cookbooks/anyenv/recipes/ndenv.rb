@@ -1,23 +1,23 @@
 bash 'install ndenv' do
-  user 'vagrant'
-  group 'vagrant'
+  user node['anyenv']['user']
+  group node['anyenv']['gname']
   code <<-COMMAND
-    export PATH="/home/vagrant/.anyenv/bin:$PATH"
+    export PATH="#{node['anyenv']['destination']}/bin:$PATH"
     eval "$(anyenv init -)"
     anyenv install ndenv
   COMMAND
-  creates '/home/vagrant/.anyenv/envs/ndenv'
+  creates "#{node['anyenv']['destination']}/envs/ndenv"
 end
 
-bash 'install v0.10.35' do
-  user 'vagrant'
-  group 'vagrant'
+bash "install node.js #{node['nodejs']['version']}" do
+  user node['anyenv']['user']
+  group node['anyenv']['gname']
   code <<-COMMAND
-    export PATH="/home/vagrant/.anyenv/bin:$PATH"
+    export PATH="#{node['anyenv']['destination']}/bin:$PATH"
     eval "$(anyenv init -)"
-    ndenv install v0.10.35
-    ndenv global v0.10.35
+    ndenv install #{node['nodejs']['version']}
+    ndenv global  #{node['nodejs']['version']}
     ndenv rehash
   COMMAND
-  creates '/home/vagrant/.anyenv/envs/ndenv/versions/v0.10.35'
+  creates "#{node['anyenv']['destination']}/envs/ndenv/versions/#{node['nodejs']['version']}"
 end
