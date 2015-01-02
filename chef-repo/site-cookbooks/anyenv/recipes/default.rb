@@ -7,14 +7,29 @@
 # All rights reserved - Do Not Redistribute
 #
 
-git '/usr/local/anyenv' do
-  not_if 'which anyenv'
+git 'anyenv' do
+  user 'vagrant'
+  group 'vagrant'
   repository 'https://github.com/riywo/anyenv.git'
   reference "master"
-  action :checkout
+  destination '/home/vagrant/.anyenv'
+  action :sync
 end
 
-template '/etc/profile.d/Z99-anyenv.sh' do
-  source 'anyenv.sh.erb'
-  mode 0644
+bash 'env' do
+  user 'vagrant'
+  group 'vagrant'
+  code <<-COMMAND
+echo '
+export PATH="$HOME/.anyenv/bin:$PATH"
+eval "$(anyenv init -)"
+' >> /home/vagrant/.zshenv
+  COMMAND
+  not_if {
+    begin
+      File.open('/home/vagrant/.zshenv').read.match(/anyenv init/)
+    rescue
+      false
+    end
+  }
 end

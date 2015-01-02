@@ -7,7 +7,9 @@
     "zsh",
 
     "users",
-    "anyenv"
+    "anyenv",
+    "anyenv::ndenv",
+    "anyenv::plenv"
   ],
   "automatic": {
     "ipaddress": "melody"
