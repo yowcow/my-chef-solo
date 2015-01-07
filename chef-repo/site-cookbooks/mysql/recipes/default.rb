@@ -24,6 +24,7 @@ end
 end
 
 remote_file "#{node['tmp_dir']}/mysql.tar.gz" do
+  not_if { File.exists?("/usr/local/mysql") }
   source "http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-#{node['version']}-linux2.6-#{node['architecture']}.tar.gz"
   action :create_if_missing
 end
@@ -64,4 +65,18 @@ cd /usr/local/bin
 find #{node['destination']}/bin -type f -exec ln {} . \\;
   COMMAND
   creates "/usr/local/bin/mysql"
+end
+
+bash "Set up /etc/init.d/mysql.server" do
+  code <<-COMMAND
+cp #{node['destination']}/support-files/mysql.server /etc/init.d/
+  COMMAND
+  creates "/etc/init.d/mysql.server"
+end
+
+service "mysql.server" do
+  supports :status => true, :start => true, :stop => true, :restart => true, :reload => true
+  pattern "mysqld_safe"
+  action [:enable, :start]
+  subscribes :reload, "template[/etc/my.cnf]", :immediately
 end
