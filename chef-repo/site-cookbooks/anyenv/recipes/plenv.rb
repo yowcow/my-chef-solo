@@ -31,15 +31,41 @@ bash 'install cpanm' do
     plenv install-cpanm
     plenv rehash
   COMMAND
+  creates "#{node['anyenv']['destination']}/envs/plenv/shims/cpanm"
 end
 
-bash 'install default modules' do
-  user 'vagrant'
-  group 'vagrant'
+bash 'install Carton' do
+  user node['anyenv']['user']
+  group node['anyenv']['gname']
   code <<-COMMAND
     export PATH="#{node['anyenv']['destination']}/bin:$PATH"
     eval "$(anyenv init -)"
-    cpanm Carton Perl::Tidy
+    cpanm Carton
     plenv rehash
   COMMAND
+  creates "#{node['anyenv']['destination']}/envs/plenv/shims/carton"
 end
+
+bash 'install Perl::Tidy' do
+  user node['anyenv']['user']
+  group node['anyenv']['gname']
+  code <<-COMMAND
+    export PATH="#{node['anyenv']['destination']}/bin:$PATH"
+    eval "$(anyenv init -)"
+    cpanm Perl::Tidy
+    plenv rehash
+  COMMAND
+  creates "#{node['anyenv']['destination']}/envs/plenv/shims/perltidy"
+end
+
+#bash 'install Plack' do
+#  user node['anyenv']['user']
+#  group node['anyenv']['gname']
+#  code <<-COMMAND
+#    export PATH="#{node['anyenv']['destination']}/bin:$PATH"
+#    eval "$(anyenv init -)"
+#    cpanm Task::Plack
+#    plenv rehash
+#  COMMAND
+#  creates "#{node['anyenv']['destination']}/envs/plenv/shims/plackup"
+#end
