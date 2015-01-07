@@ -24,7 +24,7 @@ end
 end
 
 remote_file "#{node['tmp_dir']}/mysql.tar.gz" do
-  not_if { File.exists?("/usr/local/mysql") }
+  not_if { File.exists?(node['destination']) }
   source "http://dev.mysql.com/get/Downloads/MySQL-5.5/mysql-#{node['version']}-linux2.6-#{node['architecture']}.tar.gz"
   action :create_if_missing
 end
@@ -36,7 +36,7 @@ cd #{node['tmp_dir']} && tar xvzf mysql.tar.gz
   creates "/tmp/mysql-#{node['version']}-linux2.6-#{node['architecture']}"
 end
 
-bash "Move to /usr/local/mysql" do
+bash "Move to #{node['destination']}" do
   code <<-COMMAND
 mv /tmp/mysql-#{node['version']}-linux2.6-#{node['architecture']} #{node['destination']}
   COMMAND
@@ -62,7 +62,7 @@ end
 bash "Hardlink from /usr/local/bin to #{node['destination']}/bin/*" do
   code <<-COMMAND
 cd /usr/local/bin
-find #{node['destination']}/bin -type f -exec ln {} . \\;
+find #{node['destination']}/bin -type f -exec ln -s {} . \\;
   COMMAND
   creates "/usr/local/bin/mysql"
 end
